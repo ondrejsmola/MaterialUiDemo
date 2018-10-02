@@ -8,7 +8,8 @@ import { IApplicationState } from "../../store";
 import { Dispatch } from "redux";
 import { ToggleMenu } from "../../store/layout/actions";
 import classNames from 'classnames';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../tools/deviceDetection';
+
 
 const drawerWidth = 300;
 const styles = (theme: Theme) => createStyles({
@@ -64,19 +65,11 @@ interface ILayoutProps {
 }
 
 const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutState, onToggleMenu}) => {
-    const mobile = isMobile || window.innerWidth <= 800
-
     const mainClasses = classNames({
-        [classes.content]: !layoutState.menuOpen && !mobile
+        [classes.content]: !layoutState.menuOpen && !isMobile
     });
 
-    let versionTitle: JSX.Element;
-    if (!mobile){
-        versionTitle = <Typography color='inherit' variant='caption' noWrap className={classes.version}>Verze: {version}</Typography>
-    }
-    else {
-        versionTitle = <div/>
-    }
+    const versionTitle = <Typography color='inherit' variant='caption' noWrap className={classes.version}>Verze: {version}</Typography>
 
     return (
     <div className={classes.root}>
@@ -86,10 +79,10 @@ const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutS
                     <MenuIcon />
                 </IconButton>
                 <Typography color='inherit' variant='title' noWrap className={classes.grow}>{caption}</Typography>
-                {versionTitle}
+                {!isMobile?versionTitle:<div/>}
             </Toolbar>
         </AppBar>
-        <SwipeableDrawer variant={mobile?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
+        <SwipeableDrawer variant={isMobile?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
             <AppBar className={classes.appBar}>
                 <Toolbar disableGutters>
                     <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
@@ -97,7 +90,7 @@ const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutS
                     </IconButton>
                     <Grid container direction='column'>
                         <Grid item><Typography color='inherit' variant='subheading' noWrap >{caption}</Typography></Grid>
-                        <Grid item><Typography color='inherit' variant='caption' noWrap >Verze: {version}</Typography></Grid>
+                        {isMobile?<Grid item>{versionTitle}</Grid>:<div/>}
                     </Grid>
                 </Toolbar>
             </AppBar>
