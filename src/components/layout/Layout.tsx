@@ -30,7 +30,20 @@ const styles = (theme: Theme) => createStyles({
         height: '100%',
         flexGrow: 1
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
+    menuButton: {
+        marginLeft: 10,
+        marginRight: 20
+    },
+    content: {
+        marginLeft: -drawerWidth
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen
+        })
+    }
 });
 
 interface ILayoutProps {
@@ -42,30 +55,25 @@ interface ILayoutProps {
 }
 
 const Layout: SFC<ILayoutProps> = ({children, classes, caption, layoutState, onToggleMenu}) => {
-
-    let drawer: JSX.Element = <div />;
-    if (layoutState.menuOpen) {
-        drawer = (
-            <Drawer variant='permanent' classes={{paper: classes.drawerPaper}}>
-                <div className={classes.toolbar} />
-                <div>Drawer item</div>
-            </Drawer>
-        )
-    }
-
     return (
     <div className={classes.root}>
         <AppBar className={classes.appBar}>
-            <Toolbar>
-                <IconButton color='inherit' onClick={onToggleMenu}>
+            <Toolbar disableGutters={true}>
+                <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
                     <MenuIcon />
                 </IconButton>
                 <Typography color='inherit' variant='title' noWrap={true}>{caption}</Typography>
             </Toolbar>
         </AppBar>
-        {drawer}
-        {caption}
-        {children}
+        <Drawer variant='persistent' classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen}>
+            <div className={classes.toolbar} />
+            <div>Drawer item</div>
+        </Drawer>
+        <main className={!layoutState.menuOpen && classes.content}>
+            <div className={classes.toolbar} />
+            {caption}
+            {children}
+        </main>
     </div>
 )}
 

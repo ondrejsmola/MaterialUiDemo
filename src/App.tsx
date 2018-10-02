@@ -6,9 +6,7 @@ class App extends React.Component {
 	public render() {
 		return (
 			<Layout caption='Fleet management system'>
-				<main>
-					<Paper>Main content</Paper>
-				</main>
+				<Paper >Main content</Paper>
 			</Layout>
 		);
 	}
