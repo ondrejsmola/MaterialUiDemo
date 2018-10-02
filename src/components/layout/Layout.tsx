@@ -2,6 +2,11 @@ import * as React from "react";
 import { SFC } from "react";
 import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Drawer, Theme } from "@material-ui/core";
 import { Menu as MenuIcon } from "@material-ui/icons";
+import { connect } from "react-redux";
+import { ILayout } from "../../store/layout/types";
+import { IApplicationState } from "../../store";
+import { Dispatch } from "redux";
+import { ToggleMenu } from "../../store/layout/actions";
 
 const drawerWidth = 240;
 const styles = (theme: Theme) => createStyles({
@@ -31,26 +36,45 @@ const styles = (theme: Theme) => createStyles({
 interface ILayoutProps {
     children: any,
     classes: any,
-    caption: string    
+    caption: string,
+    layoutState: ILayout,
+    onToggleMenu: typeof ToggleMenu
 }
 
-const Layout: SFC<ILayoutProps> = ({children, classes, caption}) => {
-    return <div className={classes.root}>
+const Layout: SFC<ILayoutProps> = ({children, classes, caption, layoutState, onToggleMenu}) => {
+
+    let drawer: JSX.Element = <div />;
+    if (layoutState.menuOpen) {
+        drawer = (
+            <Drawer variant='permanent' classes={{paper: classes.drawerPaper}}>
+                <div className={classes.toolbar} />
+                <div>Drawer item</div>
+            </Drawer>
+        )
+    }
+
+    return (
+    <div className={classes.root}>
         <AppBar className={classes.appBar}>
             <Toolbar>
-                <IconButton color='inherit'>
+                <IconButton color='inherit' onClick={onToggleMenu}>
                     <MenuIcon />
                 </IconButton>
                 <Typography color='inherit' variant='title' noWrap={true}>{caption}</Typography>
             </Toolbar>
         </AppBar>
-        <Drawer variant='permanent' open={true} classes={{paper: classes.drawerPaper}}>
-            <div className={classes.toolbar} />
-            <div>Drawer item</div>
-        </Drawer>
+        {drawer}
         {caption}
         {children}
     </div>
-}
+)}
 
-export default withStyles(styles)(Layout);
+const mapStateToProps = (state: IApplicationState) => ({
+    layoutState: state.layout
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    onToggleMenu: () => dispatch(ToggleMenu())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Layout));
