@@ -1,8 +1,9 @@
 import { ILayout, LayoutActionTypes } from './types';
 import { Reducer } from 'redux';
+import { isMobile } from '../../tools/deviceDetection';
 
 const initialState: ILayout = {
-    menuOpen: false
+    menuOpen: !isMobile
 }
 
 const reducer: Reducer<ILayout> = (state = initialState, action) => {
