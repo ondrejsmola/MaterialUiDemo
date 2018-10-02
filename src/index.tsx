@@ -12,7 +12,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './store';
 
-import createDevTools from './devTools';
+import createDevTools from './tools/devTools';
 
 const benzina = {
   primary: {
