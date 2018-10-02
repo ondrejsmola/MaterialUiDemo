@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SFC } from "react";
-import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Theme, SwipeableDrawer } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Theme, SwipeableDrawer, Grid } from "@material-ui/core";
 import { Menu as MenuIcon, ChevronLeft } from "@material-ui/icons";
 import { connect } from "react-redux";
 import { ILayout } from "../../store/layout/types";
@@ -10,11 +10,11 @@ import { ToggleMenu } from "../../store/layout/actions";
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 const styles = (theme: Theme) => createStyles({
     root: {
         flexGrow: 1,
-        height: '100%', // 440,
+        height: '100%',
         zIndex: 1,
         overflow: 'hidden',
         position: 'relative',
@@ -45,6 +45,12 @@ const styles = (theme: Theme) => createStyles({
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen
         })
+    },
+    grow: {
+        flexGrow: 1
+    },
+    version: {
+        marginRight: 10
     }
 });
 
@@ -52,34 +58,47 @@ interface ILayoutProps {
     children: any,
     classes: any,
     caption: string,
+    version: string,
     layoutState: ILayout,
     onToggleMenu: typeof ToggleMenu
 }
 
-const Layout: SFC<ILayoutProps> = ({children, classes, caption, layoutState, onToggleMenu}) => {
+const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutState, onToggleMenu}) => {
     const mobile = isMobile || window.innerWidth <= 800
 
     const mainClasses = classNames({
         [classes.content]: !layoutState.menuOpen && !mobile
     });
 
+    let versionTitle: JSX.Element;
+    if (!mobile){
+        versionTitle = <Typography color='inherit' variant='caption' noWrap className={classes.version}>Verze: {version}</Typography>
+    }
+    else {
+        versionTitle = <div/>
+    }
+
     return (
     <div className={classes.root}>
         <AppBar className={classes.appBar}>
-            <Toolbar disableGutters={true}>
+            <Toolbar disableGutters>
                 <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
                     <MenuIcon />
                 </IconButton>
-                <Typography color='inherit' variant='title' noWrap={true}>{caption}</Typography>
+                <Typography color='inherit' variant='title' noWrap className={classes.grow}>{caption}</Typography>
+                {versionTitle}
             </Toolbar>
         </AppBar>
         <SwipeableDrawer variant={mobile?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
             <AppBar className={classes.appBar}>
-                <Toolbar disableGutters={true}>
+                <Toolbar disableGutters>
                     <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
                         <ChevronLeft />
                     </IconButton>
-                    <Typography color='inherit' variant='caption' >{caption}</Typography>
+                    <Grid container direction='column'>
+                        <Grid item><Typography color='inherit' variant='subheading' noWrap >{caption}</Typography></Grid>
+                        <Grid item><Typography color='inherit' variant='caption' noWrap >Verze: {version}</Typography></Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
             <div className={classes.toolbar} />

@@ -5,8 +5,8 @@ import Layout from './components/layout/Layout';
 class App extends React.Component {
 	public render() {
 		return (
-			<Layout caption='Fleet management system'>
-				<Paper >Main content</Paper>
+			<Layout caption='Fleet management system' version='3.2.15.26'>
+				<Paper>Main content</Paper>
 			</Layout>
 		);
 	}
