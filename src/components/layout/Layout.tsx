@@ -1,12 +1,14 @@
 import * as React from "react";
 import { SFC } from "react";
-import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Drawer, Theme } from "@material-ui/core";
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Theme, SwipeableDrawer } from "@material-ui/core";
+import { Menu as MenuIcon, ChevronLeft } from "@material-ui/icons";
 import { connect } from "react-redux";
 import { ILayout } from "../../store/layout/types";
 import { IApplicationState } from "../../store";
 import { Dispatch } from "redux";
 import { ToggleMenu } from "../../store/layout/actions";
+import classNames from 'classnames';
+import { isMobile } from 'react-device-detect';
 
 const drawerWidth = 240;
 const styles = (theme: Theme) => createStyles({
@@ -55,6 +57,12 @@ interface ILayoutProps {
 }
 
 const Layout: SFC<ILayoutProps> = ({children, classes, caption, layoutState, onToggleMenu}) => {
+    const mobile = isMobile || window.innerWidth <= 800
+
+    const mainClasses = classNames({
+        [classes.content]: !layoutState.menuOpen && !mobile
+    });
+
     return (
     <div className={classes.root}>
         <AppBar className={classes.appBar}>
@@ -65,11 +73,19 @@ const Layout: SFC<ILayoutProps> = ({children, classes, caption, layoutState, onT
                 <Typography color='inherit' variant='title' noWrap={true}>{caption}</Typography>
             </Toolbar>
         </AppBar>
-        <Drawer variant='persistent' classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen}>
+        <SwipeableDrawer variant={mobile?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
+            <AppBar className={classes.appBar}>
+                <Toolbar disableGutters={true}>
+                    <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
+                        <ChevronLeft />
+                    </IconButton>
+                    <Typography color='inherit' variant='caption' >{caption}</Typography>
+                </Toolbar>
+            </AppBar>
             <div className={classes.toolbar} />
             <div>Drawer item</div>
-        </Drawer>
-        <main className={!layoutState.menuOpen && classes.content}>
+        </SwipeableDrawer>
+        <main className={mainClasses}>
             <div className={classes.toolbar} />
             {caption}
             {children}
