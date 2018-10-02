@@ -3,7 +3,7 @@ import { SFC } from "react";
 import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Theme, SwipeableDrawer, Grid } from "@material-ui/core";
 import { Menu as MenuIcon, ChevronLeft } from "@material-ui/icons";
 import { connect } from "react-redux";
-import { ILayout } from "../../store/layout/types";
+import { ILayoutState } from "../../store/layout/types";
 import { IApplicationState } from "../../store";
 import { Dispatch } from "redux";
 import { ToggleMenu } from "../../store/layout/actions";
@@ -60,7 +60,7 @@ interface ILayoutProps {
     classes: any,
     caption: string,
     version: string,
-    layoutState: ILayout,
+    layoutState: ILayoutState,
     onToggleMenu: typeof ToggleMenu
 }
 

@@ -1,12 +1,12 @@
-import { ILayout, LayoutActionTypes } from './types';
+import { ILayoutState, LayoutActionTypes } from './types';
 import { Reducer } from 'redux';
 import { isMobile } from '../../tools/deviceDetection';
 
-const initialState: ILayout = {
+const initialState: ILayoutState = {
     menuOpen: !isMobile
 }
 
-const reducer: Reducer<ILayout> = (state = initialState, action) => {
+const reducer: Reducer<ILayoutState> = (state = initialState, action) => {
     switch (action.type) {
         case LayoutActionTypes.TOGGLE_MENU: {
             return { ...state, menuOpen: !state.menuOpen }
