@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import { isMobile } from '../../tools/deviceDetection';
 
 const initialState: ILayoutState = {
-    menuOpen: !isMobile
+    menuOpen: !isMobile()
 }
 
 const reducer: Reducer<ILayoutState> = (state = initialState, action) => {

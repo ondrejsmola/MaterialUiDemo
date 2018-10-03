@@ -66,7 +66,7 @@ interface ILayoutProps {
 
 const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutState, onToggleMenu}) => {
     const mainClasses = classNames({
-        [classes.content]: !layoutState.menuOpen && !isMobile
+        [classes.content]: !layoutState.menuOpen && !isMobile()
     });
 
     const versionTitle = <Typography color='inherit' variant='caption' noWrap className={classes.version}>Verze: {version}</Typography>
@@ -79,10 +79,10 @@ const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutS
                     <MenuIcon />
                 </IconButton>
                 <Typography color='inherit' variant='title' noWrap className={classes.grow}>{caption}</Typography>
-                {!isMobile?versionTitle:<div/>}
+                {!isMobile()?versionTitle:<div/>}
             </Toolbar>
         </AppBar>
-        <SwipeableDrawer variant={isMobile?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
+        <SwipeableDrawer variant={isMobile()?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
             <AppBar className={classes.appBar}>
                 <Toolbar disableGutters>
                     <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
@@ -90,7 +90,7 @@ const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutS
                     </IconButton>
                     <Grid container direction='column'>
                         <Grid item><Typography color='inherit' variant='subheading' noWrap >{caption}</Typography></Grid>
-                        {isMobile?<Grid item>{versionTitle}</Grid>:<div/>}
+                        {isMobile()?<Grid item>{versionTitle}</Grid>:<div/>}
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -99,7 +99,6 @@ const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutS
         </SwipeableDrawer>
         <main className={mainClasses}>
             <div className={classes.toolbar} />
-            {caption}
             {children}
         </main>
     </div>
