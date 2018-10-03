@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './store';
 
 import createDevTools from './tools/devTools';
+import { WindowResize } from './store/layout/actions';
 
 const benzina = {
   primary: {
@@ -34,6 +35,12 @@ const store = createStore(
   rootReducer,
   createDevTools()
   );
+
+
+
+window.addEventListener('resize', (ev) => {
+    store.dispatch(WindowResize());
+});
 
 ReactDOM.render(
   <Provider store={store}>

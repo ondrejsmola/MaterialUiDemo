@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SFC } from "react";
+import { Component } from "react";
 import { AppBar, Toolbar, IconButton, Typography, withStyles, createStyles, Theme, SwipeableDrawer, Grid } from "@material-ui/core";
 import { Menu as MenuIcon, ChevronLeft } from "@material-ui/icons";
 import { connect } from "react-redux";
@@ -64,45 +64,48 @@ interface ILayoutProps {
     onToggleMenu: typeof ToggleMenu
 }
 
-const Layout: SFC<ILayoutProps> = ({children, classes, caption, version, layoutState, onToggleMenu}) => {
-    const mainClasses = classNames({
-        [classes.content]: !layoutState.menuOpen && !isMobile()
-    });
+class Layout extends Component<ILayoutProps> {
+    public render() {
+        const mainClasses = classNames({
+            [this.props.classes.content]: !this.props.layoutState.menuOpen && !isMobile()
+        });
 
-    const versionTitle = <Typography color='inherit' variant='caption' noWrap className={classes.version}>Verze: {version}</Typography>
+        const versionTitle = <Typography color='inherit' variant='caption' noWrap className={this.props.classes.version}>Verze: {this.props.version}</Typography>
 
-    return (
-    <div className={classes.root}>
-        <AppBar className={classes.appBar}>
-            <Toolbar disableGutters>
-                <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
-                    <MenuIcon />
-                </IconButton>
-                <Typography color='inherit' variant='title' noWrap className={classes.grow}>{caption}</Typography>
-                {!isMobile()?versionTitle:<div/>}
-            </Toolbar>
-        </AppBar>
-        <SwipeableDrawer variant={isMobile()?'temporary':'persistent'} classes={{paper: classes.drawerPaper}} open={layoutState.menuOpen} onClose={onToggleMenu} onOpen={onToggleMenu}>
-            <AppBar className={classes.appBar}>
-                <Toolbar disableGutters>
-                    <IconButton color='inherit' onClick={onToggleMenu} className={classes.menuButton}>
-                        <ChevronLeft />
-                    </IconButton>
-                    <Grid container direction='column'>
-                        <Grid item><Typography color='inherit' variant='subheading' noWrap >{caption}</Typography></Grid>
-                        {isMobile()?<Grid item>{versionTitle}</Grid>:<div/>}
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <div className={classes.toolbar} />
-            <div>Drawer item</div>
-        </SwipeableDrawer>
-        <main className={mainClasses}>
-            <div className={classes.toolbar} />
-            {children}
-        </main>
-    </div>
-)}
+        return (
+            <div className={this.props.classes.root}>
+                <AppBar className={this.props.classes.appBar}>
+                    <Toolbar disableGutters>
+                        <IconButton color='inherit' onClick={this.props.onToggleMenu} className={this.props.classes.menuButton}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography color='inherit' variant='title' noWrap className={this.props.classes.grow}>{this.props.caption}</Typography>
+                        {!isMobile()?versionTitle:<div/>}
+                    </Toolbar>
+                </AppBar>
+                <SwipeableDrawer variant={isMobile()?'temporary':'persistent'} classes={{paper: this.props.classes.drawerPaper}} open={this.props.layoutState.menuOpen} onClose={this.props.onToggleMenu} onOpen={this.props.onToggleMenu}>
+                    <AppBar className={this.props.classes.appBar}>
+                        <Toolbar disableGutters>
+                            <IconButton color='inherit' onClick={this.props.onToggleMenu} className={this.props.classes.menuButton}>
+                                <ChevronLeft />
+                            </IconButton>
+                            <Grid container direction='column'>
+                                <Grid item><Typography color='inherit' variant='subheading' noWrap >{this.props.caption}</Typography></Grid>
+                                {isMobile()?<Grid item>{versionTitle}</Grid>:<div/>}
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
+                    <div className={this.props.classes.toolbar} />
+                    <div>Drawer item</div>
+                </SwipeableDrawer>
+                <main className={mainClasses}>
+                    <div className={this.props.classes.toolbar} />
+                    {this.props.children}
+                </main>
+            </div>
+        )
+    }
+}
 
 const mapStateToProps = (state: IApplicationState) => ({
     layoutState: state.layout
