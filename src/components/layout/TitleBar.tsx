@@ -39,12 +39,16 @@ const TitleBar: SFC<ITitleBarProps> = (props: ITitleBarProps) => {
                 <IconButton color='inherit' onClick={props.onToggleMenu} className={props.classes.menuButton}>
                     {props.isSwipeable ? <ChevronLeft /> : <MenuIcon />}
                 </IconButton>
-                {props.isSwipeable||!props.isMobile?
-                <Grid container direction={props.isMobile ? "column" : "row"}>
-                    <Grid item className={props.classes.grow}><Typography color='inherit' variant={props.isSwipeable?'subheading':'title'} noWrap className={props.classes.grow}>{props.caption}</Typography></Grid>
-                    <Grid item><Typography color='inherit' variant='caption' noWrap className={props.classes.version}>Verze: {props.version}</Typography></Grid>
-                </Grid>
-                :<div/>}
+                {
+                    props.isSwipeable || !props.isMobile
+                        ?
+                        <Grid container direction={props.isMobile ? "column" : "row"}>
+                            <Grid item className={props.classes.grow}><Typography color='inherit' variant={props.isSwipeable ? 'subheading' : 'title'} noWrap className={props.classes.grow}>{props.caption}</Typography></Grid>
+                            <Grid item><Typography color='inherit' variant='caption' noWrap className={props.classes.version}>Verze: {props.version}</Typography></Grid>
+                        </Grid>
+                        :
+                        <div />
+                }
             </Toolbar>
         </AppBar>
     )
