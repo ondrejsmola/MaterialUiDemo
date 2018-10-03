@@ -14,7 +14,8 @@ import { rootReducer } from './store';
 
 import createDevTools from './tools/devTools';
 import { WindowResize } from './store/layout/actions';
-
+import { getThemeDefinition } from './tools/themeDefinition';
+/*
 const benzina = {
   primary: {
     main: '#e82129',
@@ -23,11 +24,13 @@ const benzina = {
     main: '#989898',
   },
 }
+*/
+const themeDefinition = getThemeDefinition();
 
 const theme = createMuiTheme({
   palette: {
-    primary: benzina.primary,
-    secondary: benzina.secondary
+    primary: themeDefinition.primary,
+    secondary: themeDefinition.secondary
   }
 });
 

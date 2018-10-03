@@ -1,0 +1,10 @@
+const environment = {
+  theme: {
+    primary: {
+      main: "#e82129"
+    },
+    secondary: {
+      main: "#989898"
+    }
+  }
+}
