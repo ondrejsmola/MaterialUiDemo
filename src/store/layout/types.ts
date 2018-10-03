@@ -1,6 +1,6 @@
 export const enum LayoutActionTypes {
     TOGGLE_MENU = '@@layout/TOGGLE_MENU',
-    WINDOW_RESIZE = '@@layout/WINDOW_RESIZE'
+    CHANGE_FORM_FACTOR = '@@layout/CHANGE_FORM_FACTOR'
 }
 
 export interface ILayoutState {

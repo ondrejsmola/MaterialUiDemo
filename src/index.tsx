@@ -13,8 +13,9 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './store';
 
 import createDevTools from './tools/devTools';
-import { WindowResize } from './store/layout/actions';
+import { ChangeFormFactor } from './store/layout/actions';
 import { getThemeDefinition } from './tools/themeDefinition';
+import { isMobile } from './tools/deviceDetection';
 /*
 const benzina = {
   primary: {
@@ -42,7 +43,11 @@ const store = createStore(
 
 
 window.addEventListener('resize', (ev) => {
-    store.dispatch(WindowResize());
+    const newState = isMobile();
+    const currentState = store.getState().layout.mobileVersion;
+    if (currentState !== newState) {
+      store.dispatch(ChangeFormFactor(newState));
+    }
 });
 
 ReactDOM.render(

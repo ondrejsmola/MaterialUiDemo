@@ -12,8 +12,8 @@ const reducer: Reducer<ILayoutState> = (state = initialState, action) => {
         case LayoutActionTypes.TOGGLE_MENU: {
             return { ...state, menuOpen: !state.menuOpen }
         }
-        case LayoutActionTypes.WINDOW_RESIZE: {
-            return { ...state, mobileVersion: isMobile() }
+        case LayoutActionTypes.CHANGE_FORM_FACTOR: {
+            return { ...state, mobileVersion: action.isMobile }
         }
         default:
             return state;
