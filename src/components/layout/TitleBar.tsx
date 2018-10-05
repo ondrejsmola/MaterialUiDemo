@@ -4,7 +4,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import { ToggleMenu } from '../../store/layout/actions';
 import Grid from '@material-ui/core/Grid';
-import { AppBar, Toolbar, IconButton, Typography, Theme, createStyles, withStyles } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import withStyles from '@material-ui/core/styles/withStyles';
+import createStyles from '@material-ui/core/styles/createStyles'
 
 const styles = (theme: Theme) => createStyles({
     appBar: {

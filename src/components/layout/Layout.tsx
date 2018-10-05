@@ -1,6 +1,9 @@
 import * as React from "react";
 import { SFC } from "react";
-import { withStyles, createStyles, Theme, SwipeableDrawer } from "@material-ui/core";
+import withStyles from '@material-ui/core/styles/withStyles';
+import createStyles from '@material-ui/core/styles/createStyles'
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { connect } from "react-redux";
 import { ILayoutState } from "../../store/layout/types";
 import { IApplicationState } from "../../store";

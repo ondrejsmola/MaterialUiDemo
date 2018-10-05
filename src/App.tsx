@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Paper } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+// import { Paper } from '@material-ui/core';
 import Layout from './components/layout/Layout';
 
 class App extends React.Component {

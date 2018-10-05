@@ -1,6 +1,5 @@
-// import blue from '@material-ui/core/colors/blue';
-
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
